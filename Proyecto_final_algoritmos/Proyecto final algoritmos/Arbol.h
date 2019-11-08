@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <functional>
+#include "dirent.h"
 using namespace std;
 template<typename T>
 class Nodo {
@@ -14,7 +15,7 @@ template<typename T>
 class AVL {
 
 	typedef function<int(T, T)> Comp;
-
+	
 	Nodo<T>*raiz;
 	void(*procesar)(T);//funcion como puntero
 	Comp comparar;
