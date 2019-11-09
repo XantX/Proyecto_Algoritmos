@@ -20,21 +20,38 @@ class AVL {
 	void(*procesar)(T);//funcion como puntero
 	Comp comparar;
 
+	void Litar(string Dir) {//ruta
+		DIR*directorio;
+		struct dirent*elemto;
+		string nombre;
+		if (directorio=opendir(dir.c_str())) {
+			while (elemto = readdir(directorio)) {
+				nombre = elemto->d_name;
+				if (nombre != "."&& nombre != "..")cout << nombre;
+			}
+		}
+		closedir(directorio);
+	} 
+	//----------------------------------------------------------
+	void rotarIzq(Nodo<T>*&nodo) {
+		Nodo<T>*aux = nodo->der;
+		nodo->der = aux->izq;
+		aux->izq = nodo;
+		nodo = aux;
+	}
+	void rotarDer(Nodo<T>*&nodo) {
+		Nodo<T>*aux = nodo->izq;
+		nodo->izq = aux->der;
+		aux->der = nodo;
+		nodo = aux;
+	}
 	//---------------------------------------------------------------------
 	void _insertar(Nodo<T>*& nodo, T e) {
 
 		if (nodo == nullptr) {
 			nodo = new Nodo<T>();
 			nodo->elemento = e;
-			int alturader = Alturader();
-			int alturaizq = Alturaizq();
-			if (alturader - alturaizq>1) {
-				cout << "esta desbalanceado a la derecha en:" << e << endl;
-			}
-			if (alturader - alturaizq < -1) {
-				cout << "esta desbalanceado a la izquierda en:" << e << endl;
-			}
-
+			_balanceo(nodo);
 		}
 		else if (e< nodo->elemento) {
 			return _insertar(nodo->izq, e);
@@ -42,7 +59,39 @@ class AVL {
 		else if (e >= nodo->elemento) {
 			return _insertar(nodo->der, e);
 		}
+
 	}
+
+	//---------------------------------------------------------------------
+	void _balanceo(Nodo<T>*nodo) {
+		if (nodo == nullptr) {
+			return;
+		}
+		int alturader = _AlturaDer(nodo);
+		int alturaizq = _AlturaIzq(nodo);
+		int fb = alturader - alturaizq;
+		if (fb>1) {
+			alturader = _AlturaDer(nodo->der);
+			alturaizq = _AlturaIzq(nodo->der);
+			if (alturaizq>alturader) {
+				rotarDer(nodo->der);
+			}
+			rotarIzq(nodo);
+		}
+		if (fb<-1) {
+			
+			alturader = _AlturaDer(nodo->izq);
+			alturaizq = _AlturaIzq(nodo->izq);
+			if (alturaizq<alturader) {
+				rotarIzq(nodo->izq);
+			}
+			rotarDer(nodo);
+		}
+		_balanceo(nodo->der);
+		_balanceo(nodo->izq);
+	}
+
+
 	//---------------------------------------------------------------------
 	void rotacion(Nodo<T>*nodo) {
 
