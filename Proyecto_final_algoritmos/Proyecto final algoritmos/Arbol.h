@@ -19,19 +19,6 @@ class AVL {
 	Nodo<T>*raiz;
 	void(*procesar)(T);//funcion como puntero
 	Comp comparar;
-
-	void Litar(string Dir) {//ruta
-		DIR*directorio;
-		struct dirent*elemto;
-		string nombre;
-		if (directorio=opendir(dir.c_str())) {
-			while (elemto = readdir(directorio)) {
-				nombre = elemto->d_name;
-				if (nombre != "."&& nombre != "..")cout << nombre;
-			}
-		}
-		closedir(directorio);
-	} 
 	//----------------------------------------------------------
 	void rotarIzq(Nodo<T>*&nodo) {
 		Nodo<T>*aux = nodo->der;
@@ -89,12 +76,6 @@ class AVL {
 		}
 		_balanceo(nodo->der);
 		_balanceo(nodo->izq);
-	}
-
-
-	//---------------------------------------------------------------------
-	void rotacion(Nodo<T>*nodo) {
-
 	}
 	//------------------------------------------------------------------------
 	int _AlturaIzq(Nodo<T>*nodo) {
