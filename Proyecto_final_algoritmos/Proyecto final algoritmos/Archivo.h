@@ -8,6 +8,7 @@ private:
 	long long peso;
 	std::string tipo;//tipo de archivo
 	long long Dinero_en_banco;
+	System::DateTime fechaCreacion;
 public:
 	CuentaBancaria(std::string nombre, std::string direccion, long long peso, std::string tipo, long long Dinero_en_banco, System::DateTime fechaCreacion);
 	~CuentaBancaria();
@@ -16,7 +17,7 @@ public:
 	std::string getnombre();
 	std::string getdireccion();
 	std::string gettipo();
-	System::DateTime fechaCreacion;
+	System::DateTime Fecha();
 
 };
 
@@ -44,4 +45,7 @@ std::string CuentaBancaria::getdireccion() {
 }
 std::string CuentaBancaria::gettipo() {
 	return tipo;
+}
+System::DateTime CuentaBancaria::Fecha(){
+	return fechaCreacion;
 }

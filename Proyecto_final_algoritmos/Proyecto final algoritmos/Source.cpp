@@ -31,11 +31,11 @@ void Listar(String^ Dir){//ruta
 	while (myEnum->MoveNext())
 	{
 		FileInfo^ f = safe_cast<FileInfo^>(myEnum->Current);
-		/*nombre = Convertir(f->Name);
+		nombre = Convertir(f->Name);
 		direccion = Convertir(f->DirectoryName);
-		tipo = Convertir(f->Extension);*/
-		
-		Console::WriteLine("The time of {0} ", f->CreationTimeUtc.Date);
+		tipo = Convertir(f->Extension);
+		CuentaNueva = new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
+		//setear cantidad de dinero
 	}
 }
 
