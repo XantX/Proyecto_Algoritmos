@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include "Interfaz.h"
 #include "Archivo.h"
 #include "Arbol.h"
 #include <msclr\marshal_cppstd.h>
@@ -41,11 +41,6 @@ void Listar(String^ Dir){//ruta
 
 
 int main() {
-	std::string Dir;
-	std::cout << "dime la direccion" << std::endl;
-	getline(std::cin, Dir);
-	String^dir=gcnew String(Dir.c_str());
-	Listar(dir);
 
 	std::cin.get();
 	return 0;

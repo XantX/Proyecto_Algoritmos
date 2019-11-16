@@ -31,7 +31,7 @@ class AVL {
 		nodo = aux;
 	}
 	//---------------------------------------------------------------------
-	void _insertar(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
+	void _insertarTamaño(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
 		aux = nodo->elemento;
 		if (nodo == nullptr) {
 			nodo = new Nodo<T>();
@@ -44,7 +44,21 @@ class AVL {
 		else if (e->getpeso >= aux->getpeso()) {
 			return _insertar(nodo->der, e);
 		}
+	}
 
+	void _insertarDia(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
+		aux = nodo->elemento;
+		if (nodo == nullptr) {
+			nodo = new Nodo<T>();
+			nodo->elemento = e;
+			_balanceo(nodo);
+		}
+		else if (e->Fecha() < aux->Fecha()) {
+			return _insertar(nodo->izq, e);
+		}
+		else if (e->getpeso >= aux->getpeso()) {
+			return _insertar(nodo->der, e);
+		}
 	}
 
 	//---------------------------------------------------------------------
@@ -97,7 +111,7 @@ public:
 	}
 
 	void Insertar(T e) {
-		_insertar(raiz, e);
+		_insertarTamaño(raiz, e);
 	}
 	int Alturader() {
 		return _AlturaDer(raiz);
