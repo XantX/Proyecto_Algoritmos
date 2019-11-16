@@ -1,9 +1,7 @@
-#include <io.h>
 #include <iostream>
 #include <string>
-#include "dirent.h"
-#include <vector>
 #include "Archivo.h"
+#include "Arbol.h"
 #include <msclr\marshal_cppstd.h>
 using namespace System;
 using namespace System::IO;
@@ -14,7 +12,7 @@ std::string Convertir(String^dato){
 	return standardString;
 }
 void Listar(String^ Dir){//ruta
-	CuentaBancaria *CuentaNueva;
+	
     // Make a reference to a directory.
 	DirectoryInfo^ di = gcnew DirectoryInfo(Dir);
 
@@ -27,6 +25,7 @@ void Listar(String^ Dir){//ruta
 	std::string nombre;
 	std::string direccion;
 	std::string tipo;
+	AVL<CuentaBancaria>*nuevo=new AVL<CuentaBancaria>();
 
 	while (myEnum->MoveNext())
 	{
@@ -34,7 +33,8 @@ void Listar(String^ Dir){//ruta
 		nombre = Convertir(f->Name);
 		direccion = Convertir(f->DirectoryName);
 		tipo = Convertir(f->Extension);
-		CuentaNueva = new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
+		CuentaBancaria CuentaNueva(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
+		nuevo->Insertar(CuentaNueva);
 		//setear cantidad de dinero
 	}
 }

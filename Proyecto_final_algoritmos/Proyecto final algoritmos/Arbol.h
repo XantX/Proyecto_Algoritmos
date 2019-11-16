@@ -1,8 +1,7 @@
 #pragma once
 #include <iostream>
 #include <functional>
-#include "dirent.h"
-using namespace std;
+
 template<typename T>
 class Nodo {
 public:
@@ -14,11 +13,10 @@ public:
 template<typename T>
 class AVL {
 
-	typedef function<int(T, T)> Comp;
 	
 	Nodo<T>*raiz;
-	void(*procesar)(T);//funcion como puntero
-	Comp comparar;
+	CuentaBancaria *aux;
+	
 	//----------------------------------------------------------
 	void rotarIzq(Nodo<T>*&nodo) {
 		Nodo<T>*aux = nodo->der;
@@ -33,17 +31,17 @@ class AVL {
 		nodo = aux;
 	}
 	//---------------------------------------------------------------------
-	void _insertar(Nodo<T>*& nodo, T e) {
-
+	void _insertar(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
+		aux = nodo->elemento;
 		if (nodo == nullptr) {
 			nodo = new Nodo<T>();
 			nodo->elemento = e;
 			_balanceo(nodo);
 		}
-		else if (e< nodo->elemento) {
+		else if (e->getpeso()< aux->getpeso()) {
 			return _insertar(nodo->izq, e);
 		}
-		else if (e >= nodo->elemento) {
+		else if (e->getpeso >= aux->getpeso()) {
 			return _insertar(nodo->der, e);
 		}
 
@@ -93,11 +91,9 @@ class AVL {
 	}
 	//---------------------------------------------------------------------
 public:
-	AVL() {}
-	AVL(void(*nuevoProcesar)(T)) {
-		this->procesar = nuevoProcesar;
-		this->comparar = [](T a, T b)-> int {return a - b; };
+	AVL() {
 		raiz = nullptr;
+		aux = new CuentaBancaria();//para hacer las compáraciones
 	}
 
 	void Insertar(T e) {

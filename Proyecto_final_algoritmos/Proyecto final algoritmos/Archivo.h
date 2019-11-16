@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vcclr.h>
 
 class CuentaBancaria {
 private:
@@ -8,7 +9,8 @@ private:
 	long long peso;
 	std::string tipo;//tipo de archivo
 	long long Dinero_en_banco;
-	System::DateTime fechaCreacion;
+	gcroot<System::DateTime>fechaCreacion;
+
 public:
 	CuentaBancaria(std::string nombre, std::string direccion, long long peso, std::string tipo, long long Dinero_en_banco, System::DateTime fechaCreacion);
 	~CuentaBancaria();
