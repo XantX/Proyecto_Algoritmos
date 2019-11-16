@@ -12,6 +12,7 @@ private:
 	gcroot<System::DateTime>fechaCreacion;
 
 public:
+	CuentaBancaria();
 	CuentaBancaria(std::string nombre, std::string direccion, long long peso, std::string tipo, long long Dinero_en_banco, System::DateTime fechaCreacion);
 	~CuentaBancaria();
 	long long getDinero();
@@ -22,7 +23,9 @@ public:
 	System::DateTime Fecha();
 
 };
+CuentaBancaria::CuentaBancaria() {
 
+}
 CuentaBancaria::CuentaBancaria(std::string nombre, std::string direccion, long long peso, std::string tipo, long long Dinero_en_banco, System::DateTime fechaCreacion){
 	this->nombre = nombre;
 	this->direccion = direccion;

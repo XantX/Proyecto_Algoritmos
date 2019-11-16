@@ -1,14 +1,7 @@
 #pragma once
-#include "Arbol.h"
-#include <string>
+//#include "Arbol.h"
 
-void interface() {
+void Diseño() {
 
-	std::string Dir;
-	std::cout << "Dime la ruta para escaner: " << std::endl;
-	getline(std::cin, Dir);
-	String^dir = gcnew String(Dir.c_str());
-	Listar(dir);
-
-	system("cls");
+	//system("cls");
 }

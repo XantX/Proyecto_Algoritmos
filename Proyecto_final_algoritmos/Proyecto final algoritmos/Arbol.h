@@ -5,7 +5,7 @@
 template<typename T>
 class Nodo {
 public:
-	T elemento;
+	T *elemento;
 	Nodo*izq;
 	Nodo*der;
 };
@@ -32,32 +32,36 @@ class AVL {
 	}
 	//---------------------------------------------------------------------
 	void _insertarTamaño(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
-		aux = nodo->elemento;
+		
 		if (nodo == nullptr) {
 			nodo = new Nodo<T>();
 			nodo->elemento = e;
 			_balanceo(nodo);
 		}
-		else if (e->getpeso()< aux->getpeso()) {
-			return _insertar(nodo->izq, e);
-		}
-		else if (e->getpeso >= aux->getpeso()) {
-			return _insertar(nodo->der, e);
+		else {
+			aux = nodo->elemento;
+			if (e->getpeso() < aux->getpeso()) {
+				return _insertarTamaño(nodo->izq, e);
+			}
+			else if (e->getpeso() >= aux->getpeso()) {
+				return _insertarTamaño(nodo->der, e);
+			}
 		}
 	}
-
-	void _insertarDia(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
-		aux = nodo->elemento;
+	void _insertarFecha(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por fecha
 		if (nodo == nullptr) {
 			nodo = new Nodo<T>();
 			nodo->elemento = e;
 			_balanceo(nodo);
 		}
-		else if (e->Fecha() < aux->Fecha()) {
-			return _insertar(nodo->izq, e);
-		}
-		else if (e->getpeso >= aux->getpeso()) {
-			return _insertar(nodo->der, e);
+		else {
+			aux = nodo->elemento;
+			if (e->Fecha() < aux->Fecha()) {
+				return _insertarFecha(nodo->izq, e);
+			}
+			else if (e->Fecha() >= aux->Fecha()) {
+				return _insertarFecha(nodo->der, e);
+			}
 		}
 	}
 
@@ -110,8 +114,16 @@ public:
 		aux = new CuentaBancaria();//para hacer las compáraciones
 	}
 
-	void Insertar(T e) {
-		_insertarTamaño(raiz, e);
+	void Insertar(T *e, int caso) {
+		switch (caso)
+		{
+		case 1:
+			_insertarTamaño(raiz, e);
+			break;
+		case 2:
+			_insertarFecha(raiz, e);
+			break;
+		}
 	}
 	int Alturader() {
 		return _AlturaDer(raiz);

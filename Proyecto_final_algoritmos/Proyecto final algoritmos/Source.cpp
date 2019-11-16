@@ -11,7 +11,8 @@ std::string Convertir(String^dato){
 	std::string standardString = context.marshal_as<std::string>(dato);
 	return standardString;
 }
-void Listar(String^ Dir){//ruta
+//-------------------------------------------------------------------
+void Listar(String^ Dir,int caso){//ruta
 	
     // Make a reference to a directory.
 	DirectoryInfo^ di = gcnew DirectoryInfo(Dir);
@@ -33,14 +34,20 @@ void Listar(String^ Dir){//ruta
 		nombre = Convertir(f->Name);
 		direccion = Convertir(f->DirectoryName);
 		tipo = Convertir(f->Extension);
-		CuentaBancaria CuentaNueva(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
-		nuevo->Insertar(CuentaNueva);
+		CuentaBancaria *CuentaNueva=new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
+
+		nuevo->Insertar(CuentaNueva, caso);
 		//setear cantidad de dinero
 	}
 }
 
 
 int main() {
+	std::string Dir;
+	std::cout << "Dime la ruta para escaner: " << std::endl;
+	getline(std::cin, Dir);
+	String^dir = gcnew String(Dir.c_str());
+	Listar(dir,1);// casos para la indexacion
 
 	std::cin.get();
 	return 0;
