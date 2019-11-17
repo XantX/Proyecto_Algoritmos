@@ -34,6 +34,7 @@ void Listar(String^ Dir,int caso){//ruta
 		nombre = Convertir(f->Name);
 		direccion = Convertir(f->DirectoryName);
 		tipo = Convertir(f->Extension);
+		std::cout << nombre<<std::endl;
 		CuentaBancaria *CuentaNueva=new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
 
 		nuevo->Insertar(CuentaNueva, caso);

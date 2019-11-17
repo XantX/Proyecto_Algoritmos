@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 #include <functional>
 
 template<typename T>
@@ -8,15 +9,42 @@ public:
 	T *elemento;
 	Nodo*izq;
 	Nodo*der;
+	
 };
 
 template<typename T>
 class AVL {
 
-	
+
 	Nodo<T>*raiz;
 	CuentaBancaria *aux;
-	
+	std::vector<CuentaBancaria>arrcuentas;
+	int comparar(int uno, int dos) {
+		return uno - dos;
+	}
+	//---------------------------------------------------------
+	void _buscar(Nodo<T>*nodo, std::string LetraIni) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			int arbolElemt = int(aux->getnombre().front());
+			int elemtbuscado = int(LetraIni);
+			int result=comparar(arbolElemt, elemtbuscado);
+			if (result==0) {
+				arrcuentas.push_back(aux);
+				result = -1;
+			}
+				if (result<0) {
+					_buscar(nodo->der, LetraIni);
+				}
+				else {
+					_buscar(nodo->izq, LetraIni);
+				}
+			
+		}
+	}
 	//----------------------------------------------------------
 	void rotarIzq(Nodo<T>*&nodo) {
 		Nodo<T>*aux = nodo->der;
@@ -61,6 +89,25 @@ class AVL {
 			}
 			else if (e->Fecha() >= aux->Fecha()) {
 				return _insertarFecha(nodo->der, e);
+			}
+		}
+	}
+
+	void _insertarInicioLetra(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por letra inicial
+		if (nodo == nullptr) {
+			nodo = new Nodo<T>();
+			nodo->elemento = e;
+			_balanceo(nodo);
+		}
+		else {
+			aux = nodo->elemento;
+			int LetraEntrante = int(e->getnombre().at(0));
+			int letradelArbol = int(aux->getnombre().at(0));
+			if (LetraEntrante < letradelArbol) {
+				return _insertarInicioLetra(nodo->izq, e);
+			}
+			else if (LetraEntrante >= letradelArbol) {
+				return _insertarInicioLetra(nodo->der, e);
 			}
 		}
 	}
@@ -122,6 +169,9 @@ public:
 			break;
 		case 2:
 			_insertarFecha(raiz, e);
+			break;
+		case 3:
+			_insertarInicioLetra(raiz, e);
 			break;
 		}
 	}
