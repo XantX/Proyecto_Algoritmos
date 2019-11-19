@@ -18,10 +18,54 @@ class AVL {
 
 	Nodo<T>*raiz;
 	CuentaBancaria *aux;
+	CuentaBancaria *aux2;
 	std::vector<CuentaBancaria>arrcuentas;
-	int comparar(int uno, int dos) {
+	std::vector<CuentaBancaria>elementosEliminados;
+	int comparar(int uno, int dos) {//
 		return uno - dos;
 	}
+	//--------------------------------------------------------
+	bool _eliminar(Nodo<T>*& nodo, CuentaBancaria *e) {//eleminar por letraIni
+		if (nodo == nullptr) return false;
+		else {
+			aux2 = nodo->elemento;
+			int letraBuscar=int(e->getnombre().front());
+			int letraEncontrada= int(aux2->getnombre().front());
+			int r = comparar(letraEncontrada, letraBuscar);
+			if (r < 0) {
+				return _eliminar(nodo->der, e);
+			}
+			else if (r > 0) {
+				return _eliminar(nodo->izq, e);
+			}
+			else { // r==0 es porque se encontró el elemento e en el arbol
+				if (nodo->der == nullptr && nodo->izq == nullptr) {//caso 1
+					nodo = nullptr;
+					delete nodo;
+					return true;
+				}
+				else if (nodo->izq == nullptr) { //caso 2
+					nodo = nodo->der;
+					return true;
+				}
+				else if (nodo->der == nullptr) { //caso 3
+					nodo = nodo->izq;
+					return true;
+				}
+				else { //caso 4
+					Nodo<T> *aux = nodo->der; //Se establece buscar el menor elemento por la derecha
+					while (aux->izq != nullptr)
+					{
+						aux = aux->izq; //Se obtiene la hoja menor
+					}
+					nodo->elemento = aux->elemento; //Se actualiza el elemento en el nodo raiz y
+					return _eliminar(nodo->der, aux->elemento); //se envía a eliminar el elemento en el arbol por la derecha
+				}
+			}
+		}
+	}
+	//---------------------------------------------------------
+	
 	//---------------------------------------------------------
 	void _buscar(Nodo<T>*nodo, std::string LetraIni) {
 		if (nodo == nullptr) {
@@ -159,6 +203,7 @@ public:
 	AVL() {
 		raiz = nullptr;
 		aux = new CuentaBancaria();//para hacer las compáraciones
+		aux2 = new CuentaBancaria();
 	}
 
 	void Insertar(T *e, int caso) {
@@ -180,6 +225,12 @@ public:
 	}
 	int Alturaizq() {
 		return _AlturaIzq(raiz);
+	}
+
+	CuentaBancaria _eliminarObtener() {//obtiene el elemento de la raiz del arbol
+		aux = raiz->elemento;
+		_eliminar(raiz, raiz->elemento);
+		return aux;
 	}
 
 };

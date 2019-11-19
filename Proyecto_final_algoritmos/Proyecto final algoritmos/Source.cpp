@@ -2,6 +2,7 @@
 #include "Interfaz.h"
 #include "Archivo.h"
 #include "Arbol.h"
+#include "Interfaz.h"
 #include <msclr\marshal_cppstd.h>
 using namespace System;
 using namespace System::IO;
@@ -12,7 +13,7 @@ std::string Convertir(String^dato){
 	return standardString;
 }
 //-------------------------------------------------------------------
-void Listar(String^ Dir,int caso){//ruta
+void Listar(String^ Dir,int caso, AVL<CuentaBancaria>*nuevo){//ruta
 	
     // Make a reference to a directory.
 	DirectoryInfo^ di = gcnew DirectoryInfo(Dir);
@@ -26,7 +27,7 @@ void Listar(String^ Dir,int caso){//ruta
 	std::string nombre;
 	std::string direccion;
 	std::string tipo;
-	AVL<CuentaBancaria>*nuevo=new AVL<CuentaBancaria>();
+	
 
 	while (myEnum->MoveNext())
 	{
@@ -44,12 +45,14 @@ void Listar(String^ Dir,int caso){//ruta
 
 
 int main() {
+	AVL<CuentaBancaria>*nuevo = new AVL<CuentaBancaria>();
 	std::string Dir;
 	std::cout << "Dime la ruta para escaner: " << std::endl;
 	getline(std::cin, Dir);
 	String^dir = gcnew String(Dir.c_str());
-	Listar(dir,1);// casos para la indexacion
-
+	Listar(dir,1,nuevo);// casos para la indexacion
+	system("cls");
+	Diseño();
 	std::cin.get();
 	return 0;
 }
