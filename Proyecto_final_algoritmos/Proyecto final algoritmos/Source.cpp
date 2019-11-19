@@ -53,6 +53,26 @@ int main() {
 	Listar(dir,1,nuevo);// casos para la indexacion
 	system("cls");
 	Diseño();
+
+	int opcion;
+	std::cin >> opcion;
+	switch (opcion)
+	{
+	case 1:
+		system("cls");
+		DiseñoNombre();
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	}
+
+	std::cin.ignore();
 	std::cin.get();
 	return 0;
 }
