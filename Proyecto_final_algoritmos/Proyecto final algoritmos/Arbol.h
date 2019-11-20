@@ -27,8 +27,10 @@ class AVL {
 		if (nodo == nullptr) return false;
 		else {
 			aux2 = nodo->elemento;
-			int letraBuscar=int(e->getnombre().front());
-			int letraEncontrada= int(aux2->getnombre().front());
+			int letraBuscar = e->getorden();
+			
+			int letraEncontrada = aux2->getorden();
+
 			int r = comparar(letraEncontrada, letraBuscar);
 			if (r < 0) {
 				return _eliminar(nodo->der, e);
@@ -51,13 +53,13 @@ class AVL {
 					return true;
 				}
 				else { //caso 4
-					Nodo<T> *aux = nodo->der; //Se establece buscar el menor elemento por la derecha
-					while (aux->izq != nullptr)
+					Nodo<T> *auxN = nodo->der; //Se establece buscar el menor elemento por la derecha
+					while (auxN->izq != nullptr)
 					{
-						aux = aux->izq; //Se obtiene la hoja menor
+						auxN = auxN->izq; //Se obtiene la hoja menor
 					}
-					nodo->elemento = aux->elemento; //Se actualiza el elemento en el nodo raiz y
-					return _eliminar(nodo->der, aux->elemento); //se envía a eliminar el elemento en el arbol por la derecha
+					nodo->elemento = auxN->elemento; //Se actualiza el elemento en el nodo raiz y
+					return _eliminar(nodo->der, auxN->elemento); //se envía a eliminar el elemento en el arbol por la derecha
 				}
 			}
 		}
@@ -201,16 +203,16 @@ class AVL {
 	}
 	//----------------------------------------------------------
 	void rotarIzq(Nodo<T>*&nodo) {
-		Nodo<T>*aux = nodo->der;
-		nodo->der = aux->izq;
-		aux->izq = nodo;
-		nodo = aux;
+		Nodo<T>*auxN = nodo->der;
+		nodo->der = auxN->izq;
+		auxN->izq = nodo;
+		nodo = auxN;
 	}
 	void rotarDer(Nodo<T>*&nodo) {
-		Nodo<T>*aux = nodo->izq;
-		nodo->izq = aux->der;
-		aux->der = nodo;
-		nodo = aux;
+		Nodo<T>*auxN = nodo->izq;
+		nodo->izq = auxN->der;
+		auxN->der = nodo;
+		nodo = auxN;
 	}
 	//---------------------------------------------------------------------
 	void _insertarTamaño(Nodo<T>*& nodo, CuentaBancaria *e) {//arbol indexado por tamaño
@@ -265,7 +267,6 @@ class AVL {
 			}
 		}
 	}
-
 	//---------------------------------------------------------------------
 	void _balanceo(Nodo<T>*nodo) {
 		if (nodo == nullptr) {
@@ -320,13 +321,13 @@ public:
 		switch (caso)
 		{
 		case 1:
-			_insertarTamaño(raiz, e);
+			_insertarInicioLetra(raiz, e);
 			break;
 		case 2:
 			_insertarFecha(raiz, e);
 			break;
 		case 3:
-			_insertarInicioLetra(raiz, e);
+			_insertarTamaño(raiz, e);
 			break;
 		}
 	}
@@ -339,7 +340,7 @@ public:
 	std::vector<CuentaBancaria*> arreglo() {
 		return arrcuentas;
 	}
-	CuentaBancaria _eliminarObtener() {//obtiene el elemento de la raiz del arbol
+	CuentaBancaria* _eliminarObtener() {//obtiene el elemento de la raiz del arbol
 		aux = raiz->elemento;
 		_eliminar(raiz, raiz->elemento);
 		return aux;
@@ -352,6 +353,7 @@ public:
 	void BuscarContiene(std::string Linea) {
 		arrcuentas.clear();
 		_buscarContiene(raiz, Linea);
+		
 	}
 	void pesoMayor() {
 		arrcuentas.clear();
@@ -376,5 +378,21 @@ public:
 	void FechaReciente() {
 		arrcuentas.clear();
 		_fechaMasreciente(raiz,raiz->elemento);
+	}
+	bool is_full() {
+		if (raiz != nullptr) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	bool is_empty() {
+		if (raiz==nullptr) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 };

@@ -3,6 +3,9 @@
 using namespace System;
 using namespace System::IO;
 #include "Interfaz.h"
+int Flag=0;
+int cantidadDeArchivos=0;
+
 
 std::string Convertir(String^dato){
 	msclr::interop::marshal_context context;
@@ -35,15 +38,40 @@ void Listar(String^ Dir,int caso, AVL<CuentaBancaria>*nuevo){//ruta
 		direccion = Convertir(f->DirectoryName);
 		tipo = Convertir(f->Extension);
 		std::cout << nombre<<std::endl;
-		CuentaBancaria *CuentaNueva=new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
+		CuentaBancaria *CuentaNueva=new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc,cantidadDeArchivos+1);
 		nuevo->Insertar(CuentaNueva, caso);
+		cantidadDeArchivos++;
 		//setear cantidad de dinero
 	}
 }
 
-
+bool bandera(AVL<CuentaBancaria>*nuevo, AVL<CuentaBancaria>*copia) {
+	Flag = 0;
+	if (nuevo->is_full() && copia->is_empty()) {
+		return Flag+1;
+	}
+	else {
+		return Flag;
+	}
+}
+void Cambio(AVL<CuentaBancaria>*nuevo, AVL<CuentaBancaria>*copia, int caso, void(*funcion)(AVL<CuentaBancaria>*)) {
+	void(*pf)(AVL<CuentaBancaria>*);
+	pf = funcion;
+	if (bandera(nuevo, copia)) {
+		for (int i = 0; i < cantidadDeArchivos; i++) {
+			copia->Insertar(nuevo->_eliminarObtener(), caso);
+		}
+		(pf)(copia);
+	}else {
+		for (int i = 0; i < cantidadDeArchivos; i++) {
+			nuevo->Insertar(copia->_eliminarObtener(), caso);
+		}
+		(pf)(nuevo);
+	}
+}
 int main() {
 	AVL<CuentaBancaria>*nuevo = new AVL<CuentaBancaria>();
+	AVL<CuentaBancaria>*copia = new AVL<CuentaBancaria>();
 	std::string Dir;
 	std::cout << "Dime la ruta para escaner: " << std::endl;
 	getline(std::cin, Dir);
@@ -60,20 +88,19 @@ int main() {
 	{
 	case 1:
 		system("cls");
-		DiseñoNombre(nuevo);//implementado
-
+		Cambio(nuevo, copia, opcion, DiseñoNombre);//implementado
 		break;
 	case 2:
 		system("cls");
-		DiseñoFecha(nuevo);
+		Cambio(nuevo, copia, opcion, DiseñoFecha);
 		break;
 	case 3:
 		system("cls");
-		DiseñoPeso(nuevo);
+		Cambio(nuevo, copia, opcion, DiseñoPeso);
 		break;
 	case 4:
 		system("cls");
-		DiseñoDinero(nuevo);
+		Cambio(nuevo, copia, opcion, DiseñoDinero);
 		break;
 	case 5:
 		system("cls");

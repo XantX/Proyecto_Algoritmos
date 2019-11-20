@@ -8,6 +8,8 @@ c:\users\sebastian\desktop\proyecto_algo\proyecto_final_algoritmos\proyecto fina
 c:\users\sebastian\desktop\proyecto_algo\proyecto_final_algoritmos\proyecto final algoritmos\Interfaz.h(124): warning C4018: '<': no coinciden signed/unsigned
 c:\users\sebastian\desktop\proyecto_algo\proyecto_final_algoritmos\proyecto final algoritmos\Interfaz.h(148): warning C4018: '<': no coinciden signed/unsigned
 c:\users\sebastian\desktop\proyecto_algo\proyecto_final_algoritmos\proyecto final algoritmos\Interfaz.h(157): warning C4018: '<': no coinciden signed/unsigned
+Source.cpp(51): warning C4800: 'int': forzando el valor a bool 'true' o 'false' (advertencia de rendimiento)
+Source.cpp(54): warning C4800: 'int': forzando el valor a bool 'true' o 'false' (advertencia de rendimiento)
   Source.obj : /DEBUG:FASTLINK no se admite cuando hay presente código administrado; reiniciando vínculo con /DEBUG:FULL
   Proyecto final algoritmos.vcxproj -> C:\Users\SEBASTIAN\Desktop\Proyecto_Algo\Proyecto_final_algoritmos\Debug\Proyecto final algoritmos.exe
   Proyecto final algoritmos.vcxproj -> C:\Users\SEBASTIAN\Desktop\Proyecto_Algo\Proyecto_final_algoritmos\Debug\Proyecto final algoritmos.pdb (Partial PDB)
