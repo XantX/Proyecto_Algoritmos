@@ -1,8 +1,6 @@
 #include <iostream>
 #include "Interfaz.h"
-#include "Archivo.h"
 #include "Arbol.h"
-#include "Interfaz.h"
 #include <msclr\marshal_cppstd.h>
 using namespace System;
 using namespace System::IO;
@@ -11,6 +9,15 @@ std::string Convertir(String^dato){
 	msclr::interop::marshal_context context;
 	std::string standardString = context.marshal_as<std::string>(dato);
 	return standardString;
+}
+//----------------------------------------------------------------
+void imprimirObjeto(CuentaBancaria * cuenta) {
+	std::cout << "--------------------------------" << std::endl;
+	std::cout << cuenta->getnombre();
+	std::cout << "archivo tipo: " << cuenta->gettipo();
+	std::cout << "dinero en la cuenta: " << cuenta->getDinero() << std::endl;
+	Console::WriteLine("Fecha de creacion: {0}", cuenta->Fecha());
+	std::cout << "Direccion: " << cuenta->getdireccion();
 }
 //-------------------------------------------------------------------
 void Listar(String^ Dir,int caso, AVL<CuentaBancaria>*nuevo){//ruta
@@ -56,6 +63,7 @@ int main() {
 
 	int opcion;
 	std::cin >> opcion;
+
 	switch (opcion)
 	{
 	case 1:
@@ -63,12 +71,20 @@ int main() {
 		DiseñoNombre();
 		break;
 	case 2:
+		system("cls");
+		
 		break;
 	case 3:
+		system("cls");
+		DiseñoPeso();
 		break;
 	case 4:
+		system("cls");
+		DiseñoDinero();
 		break;
 	case 5:
+		system("cls");
+		return 0;
 		break;
 	}
 

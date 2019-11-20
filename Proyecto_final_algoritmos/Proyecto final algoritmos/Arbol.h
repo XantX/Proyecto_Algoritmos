@@ -14,8 +14,6 @@ public:
 
 template<typename T>
 class AVL {
-
-
 	Nodo<T>*raiz;
 	CuentaBancaria *aux;
 	CuentaBancaria *aux2;

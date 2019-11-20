@@ -14,13 +14,23 @@ void Diseño() {
 	//system("cls");
 }
 void DiseñoNombre() {
-	std::cout << "Dime el nombre de el archivo"<<std::endl;
+	std::cout << "Elige una opcion"<<std::endl;
+	std::cout << "1) Buscar por letra inicial" << std::endl;
+	std::cout << "2) Buscar por nombre" << std::endl;
+	std::cout << "3) el nombre del archivo contiene:" << std::endl;
 }
-//void imprimirObjeto(CuentaBancaria * cuenta) {
-//	std::cout <<"--------------------------------"<<std::endl;
-//	std::cout << cuenta->getnombre();
-//	std::cout <<"archivo tipo: "<< cuenta->gettipo();
-//	std::cout <<"dinero en la cuenta: "<<cuenta->getDinero() << std::endl;
-//	Console::WriteLine("Fecha de creacion: {0}" ,cuenta->Fecha());
-//	std::cout <<"Direccion: "<<cuenta->getdireccion;
-//}
+
+void DiseñoPeso() {
+	std::cout << "Elige una opcion:" << std::endl;
+	std::cout << "1) Peso mayor"<<std::endl;
+	std::cout << "2) Peso menor"<<std::endl;
+	std::cout << "3) Peso menor a" << std::endl;
+	std::cout << "----------opcion-------->" << std::endl;
+}
+void DiseñoDinero() {
+	std::cout << "Elige una opcion:" << std::endl;
+	std::cout << "1) mayor cantidad de dinero" << std::endl;
+	std::cout << "2) menor contidad de dinero" << std::endl;
+	std::cout << "3) dinero menor a" << std::endl;
+	std::cout << "----------opcion-------->" << std::endl;
+}
