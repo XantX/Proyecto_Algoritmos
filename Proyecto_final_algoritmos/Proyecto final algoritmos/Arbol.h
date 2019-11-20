@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <functional>
-
+#include "Archivo.h"
 template<typename T>
 class Nodo {
 public:
@@ -17,7 +17,7 @@ class AVL {
 	Nodo<T>*raiz;
 	CuentaBancaria *aux;
 	CuentaBancaria *aux2;
-	std::vector<CuentaBancaria>arrcuentas;
+	std::vector<CuentaBancaria*>arrcuentas;
 	std::vector<CuentaBancaria>elementosEliminados;
 	int comparar(int uno, int dos) {//
 		return uno - dos;
@@ -63,28 +63,140 @@ class AVL {
 		}
 	}
 	//---------------------------------------------------------
-	
+
 	//---------------------------------------------------------
-	void _buscar(Nodo<T>*nodo, std::string LetraIni) {
+	void _buscarLetraini(Nodo<T>*nodo, std::string LetraIni) {//buscar por letra de inicio
 		if (nodo == nullptr) {
 			return;
 		}
 		else {
 			aux = nodo->elemento;
 			int arbolElemt = int(aux->getnombre().front());
-			int elemtbuscado = int(LetraIni);
+			int elemtbuscado = int(LetraIni.front());
 			int result=comparar(arbolElemt, elemtbuscado);
-			if (result==0) {
-				arrcuentas.push_back(aux);
-				result = -1;
-			}
-				if (result<0) {
-					_buscar(nodo->der, LetraIni);
-				}
-				else {
-					_buscar(nodo->izq, LetraIni);
-				}
 			
+			if (result==0) {
+				
+				arrcuentas.push_back(aux);
+			}
+					_buscarLetraini(nodo->der, LetraIni);
+					_buscarLetraini(nodo->izq, LetraIni);
+		}
+	}
+	//-------------------------------------------------------------
+
+	void _buscarContiene(Nodo<T>*nodo, std::string linea) {//buscar por contiene
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			
+			if (aux->getnombre().size()>aux->getnombre().find(linea)) {
+				arrcuentas.push_back(aux);
+			}
+			_buscarContiene(nodo->der, linea);
+			_buscarContiene(nodo->izq, linea);
+		}
+	}
+	void _pesoMayor(Nodo<T>*nodo, CuentaBancaria *mayor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (mayor->getpeso()>aux->getpeso()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(mayor);
+				aux2 = mayor;
+			}
+				_pesoMayor(nodo->der, aux2);
+				_pesoMayor(nodo->izq, aux2);
+		
+			
+		}
+	}
+	void _Mayordinero(Nodo<T>*nodo, CuentaBancaria *mayor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (mayor->getDinero()>aux->getDinero()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(mayor);
+				aux2 = mayor;
+			}
+			_pesoMayor(nodo->der, aux2);
+			_pesoMayor(nodo->izq, aux2);
+		}
+	}
+	void _Menordinero(Nodo<T>*nodo, CuentaBancaria *Menor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (Menor->getDinero()>aux->getDinero()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(Menor);
+				aux2 = Menor;
+			}
+			_pesoMayor(nodo->der, aux2);
+			_pesoMayor(nodo->izq, aux2);
+		}
+	}
+	void _pesoMenor(Nodo<T>*nodo, CuentaBancaria *menor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (menor->getpeso()<aux->getpeso()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(menor);
+				aux2 = menor;
+			}
+			_pesoMenor(nodo->der, aux2);
+			_pesoMenor(nodo->izq, aux2);
+
+		}
+	}
+	void _fechaAntigua(Nodo<T>*nodo, CuentaBancaria *menor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (menor->Fecha()<aux->Fecha()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(menor);
+				aux2 = menor;
+			}
+			_fechaAntigua(nodo->der, aux2);
+			_fechaAntigua(nodo->izq, aux2);
+
+		}
+	}
+	void _fechaMasreciente(Nodo<T>*nodo, CuentaBancaria *mayor) {
+		if (nodo == nullptr) {
+			return;
+		}
+		else {
+			aux = nodo->elemento;
+			aux2 = aux;
+			if (mayor->Fecha()>aux->Fecha()) {
+				arrcuentas.clear();
+				arrcuentas.push_back(mayor);
+				aux2 = mayor;
+			}
+			_fechaMasreciente(nodo->der, aux2);
+			_fechaMasreciente(nodo->izq, aux2);
 		}
 	}
 	//----------------------------------------------------------
@@ -224,11 +336,45 @@ public:
 	int Alturaizq() {
 		return _AlturaIzq(raiz);
 	}
-
+	std::vector<CuentaBancaria*> arreglo() {
+		return arrcuentas;
+	}
 	CuentaBancaria _eliminarObtener() {//obtiene el elemento de la raiz del arbol
 		aux = raiz->elemento;
 		_eliminar(raiz, raiz->elemento);
 		return aux;
 	}
 
+	void BucarIni(std::string LetraIni) {
+		arrcuentas.clear();
+		_buscarLetraini(raiz, LetraIni);
+	}
+	void BuscarContiene(std::string Linea) {
+		arrcuentas.clear();
+		_buscarContiene(raiz, Linea);
+	}
+	void pesoMayor() {
+		arrcuentas.clear();
+		_pesoMayor(raiz,raiz->elemento);
+	}
+	void pesoMenor() {
+		arrcuentas.clear();
+		_pesoMenor(raiz,raiz->elemento);
+	}
+	void Mayordinero() {
+		arrcuentas.clear();
+		_Mayordinero(raiz, raiz->elemento);
+	}
+	void Menordinero() {
+		arrcuentas.clear();
+		_Menordinero(raiz, raiz->elemento);
+	}
+	void FechaAntigua() {
+		arrcuentas.clear();
+		_fechaAntigua(raiz, raiz->elemento);
+	}
+	void FechaReciente() {
+		arrcuentas.clear();
+		_fechaMasreciente(raiz,raiz->elemento);
+	}
 };

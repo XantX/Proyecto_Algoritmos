@@ -1,9 +1,8 @@
 #include <iostream>
-#include "Interfaz.h"
-#include "Arbol.h"
 #include <msclr\marshal_cppstd.h>
 using namespace System;
 using namespace System::IO;
+#include "Interfaz.h"
 
 std::string Convertir(String^dato){
 	msclr::interop::marshal_context context;
@@ -11,14 +10,7 @@ std::string Convertir(String^dato){
 	return standardString;
 }
 //----------------------------------------------------------------
-void imprimirObjeto(CuentaBancaria * cuenta) {
-	std::cout << "--------------------------------" << std::endl;
-	std::cout << cuenta->getnombre();
-	std::cout << "archivo tipo: " << cuenta->gettipo();
-	std::cout << "dinero en la cuenta: " << cuenta->getDinero() << std::endl;
-	Console::WriteLine("Fecha de creacion: {0}", cuenta->Fecha());
-	std::cout << "Direccion: " << cuenta->getdireccion();
-}
+
 //-------------------------------------------------------------------
 void Listar(String^ Dir,int caso, AVL<CuentaBancaria>*nuevo){//ruta
 	
@@ -44,7 +36,6 @@ void Listar(String^ Dir,int caso, AVL<CuentaBancaria>*nuevo){//ruta
 		tipo = Convertir(f->Extension);
 		std::cout << nombre<<std::endl;
 		CuentaBancaria *CuentaNueva=new CuentaBancaria(nombre, direccion, f->Length, tipo, 245713, f->CreationTimeUtc);
-
 		nuevo->Insertar(CuentaNueva, caso);
 		//setear cantidad de dinero
 	}
@@ -57,37 +48,44 @@ int main() {
 	std::cout << "Dime la ruta para escaner: " << std::endl;
 	getline(std::cin, Dir);
 	String^dir = gcnew String(Dir.c_str());
-	Listar(dir,1,nuevo);// casos para la indexacion
+	Listar(dir, 1, nuevo);// casos para la indexacion
 	system("cls");
+	while (1) {
+		system("pause");
+		system("cls");
 	Diseño();
-
 	int opcion;
 	std::cin >> opcion;
-
 	switch (opcion)
 	{
 	case 1:
 		system("cls");
-		DiseñoNombre();
+		DiseñoNombre(nuevo);//implementado
+
 		break;
 	case 2:
 		system("cls");
-		
+		DiseñoFecha(nuevo);
 		break;
 	case 3:
 		system("cls");
-		DiseñoPeso();
+		DiseñoPeso(nuevo);
 		break;
 	case 4:
 		system("cls");
-		DiseñoDinero();
+		DiseñoDinero(nuevo);
 		break;
 	case 5:
 		system("cls");
 		return 0;
 		break;
+	default:
+		system("cls");
+		std::cout << "eliga una opcion de la lista" << std::endl;
+		std::cout << "precione cualquier tecla para voler a intentar";
+		break;
 	}
-
+}
 	std::cin.ignore();
 	std::cin.get();
 	return 0;
